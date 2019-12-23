@@ -1,9 +1,21 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    }
+}
+
 plugins {
     id 'java'
 }
 
+def junoVersion = "1.0.1"
+
 group 'com.larryhsiao'
-version '1.0.0'
+version junoVersion
 
 repositories {
     mavenCentral()
@@ -18,4 +30,62 @@ dependencies {
     implementation 'com.silverhetch:clotho:1.15.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}
+
+jar {
+    from sourceSets.main.allSource
+}
+
+apply plugin: 'jacoco'
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+    }
+}
+
+apply plugin: 'com.jfrog.bintray'
+bintray {
+    user = 'larryhsiao'
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['release']
+    publish = true
+    override = true
+    pkg {
+        repo = 'Elizabeth'
+        name = 'Juno'
+        userOrg = 'larryhsiao'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/LarryHsiao/Juno.git'
+        version {
+            name = junoVersion
+            gpg {
+                sign = true
+                passphrase = System.getenv('BINTRAY_PASSPHRASE')
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
+apply plugin: 'maven-publish'
+publishing {
+    publications {
+        release(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId 'com.larryhsiao'
+            artifactId 'juno'
+            version junoVersion
+        }
+    }
 }
