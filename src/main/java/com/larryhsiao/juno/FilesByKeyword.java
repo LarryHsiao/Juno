@@ -26,7 +26,7 @@ public class FilesByKeyword implements Source<ResultSet> {
     @Override
     public ResultSet value() {
         try {
-            PreparedStatement stmt = db.value().prepareStatement(  // language=SQLite
+            PreparedStatement stmt = db.value().prepareStatement(  // language=H2
                 "SELECT files.* FROM files " +
                     "LEFT OUTER JOIN file_tag ft on files.id = ft.file_id " +
                     "LEFT OUTER JOIN tags t on ft.tag_id = t.id " +

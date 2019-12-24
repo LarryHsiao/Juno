@@ -1,7 +1,8 @@
 package com.larryhsiao.juno;
 
+import com.larryhsiao.juno.h2.EmbedH2Conn;
 import com.silverhetch.clotho.Source;
-import com.silverhetch.clotho.database.sqlite.SQLiteConn;
+import com.silverhetch.clotho.source.ConstSource;
 
 import java.io.File;
 import java.sql.Connection;
@@ -19,8 +20,10 @@ public class TagDbConn implements Source<Connection> {
     }
 
     public TagDbConn(File root) {
-        this.connSource = new SQLiteConn(
-            new File(root, ".auxo.db").getAbsolutePath()
+        this.connSource = new EmbedH2Conn(
+            new ConstSource<>(
+                new File(root, ".auxo.h2")
+            )
         );
     }
 
@@ -29,25 +32,25 @@ public class TagDbConn implements Source<Connection> {
         Connection conn = this.connSource.value();
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(
-                // language=SQLite
+                // language=H2
                 "create table IF NOT EXISTS tags (" +
-                    "id integer primary key autoincrement, " +
-                    "name text not null," +
+                    "id integer primary key AUTO_INCREMENT, " +
+                    "name varchar not null," +
                     "unique (name)" +
                     ");"
             );
             stmt.execute(
-                // language=SQLite
+                // language=H2
                 "create table IF NOT EXISTS files(" +
-                    "id integer primary key autoincrement, " +
-                    "name text not null," +
+                    "id integer primary key AUTO_INCREMENT, " +
+                    "name varchar not null," +
                     "unique (name)" +
                     ");"
             );
             stmt.execute(
-                // language=SQLite
+                // language=H2
                 "create table IF NOT EXISTS file_tag(" +
-                    "id integer primary key autoincrement," +
+                    "id integer primary key AUTO_INCREMENT," +
                     "file_id integer not null ," +
                     "tag_id integer not null ," +
                     "unique (file_id, tag_id)" +

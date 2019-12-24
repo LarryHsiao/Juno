@@ -24,7 +24,7 @@ public class FileRenameAction implements Action {
     @Override
     public void fire() {
         try (PreparedStatement stmt = db.value().prepareStatement(
-            // language=SQLite
+            // language=H2
             "UPDATE files " +
                 "SET name=?1 " +
                 "WHERE id=?2"

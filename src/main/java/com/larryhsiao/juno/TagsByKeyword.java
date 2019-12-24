@@ -23,7 +23,7 @@ public class TagsByKeyword implements Source<ResultSet> {
     public ResultSet value() {
         try {
             final PreparedStatement stmt = db.value().prepareStatement(
-                // language=SQLite
+                // language=H2
                 "SELECT * FROM tags " +
                     "WHERE name LIKE ?1;"
             );

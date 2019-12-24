@@ -24,7 +24,7 @@ public class DetachAction implements Action {
     @Override
     public void fire() {
         try (PreparedStatement stmt = dbSrc.value().prepareStatement(
-            // language=SQLite
+            // language=H2
             "DELETE FROM file_tag " +
                 "WHERE tag_id=?2 AND file_id=?1"
         )) {

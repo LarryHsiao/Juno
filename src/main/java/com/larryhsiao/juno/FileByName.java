@@ -28,7 +28,7 @@ public class FileByName implements Source<AFile> {
     @Override
     public AFile value() {
         try (PreparedStatement stmt = db.value().prepareStatement(
-            // language=SQLite
+            // language=H2
             "SELECT * FROM files WHERE name=?;"
         )) {
             stmt.setString(1, fileName);

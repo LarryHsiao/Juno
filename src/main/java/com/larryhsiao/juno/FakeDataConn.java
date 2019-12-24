@@ -20,26 +20,26 @@ public class FakeDataConn implements Source<Connection> {
         try {
             Connection conn = dbSource.value();
             conn.createStatement().execute(
-                // language=SQLite
+                // language=H2
                 "insert into files(name) values ('filename');"
             );
             conn.createStatement().execute(
-                // language=SQLite
+                // language=H2
                 "insert into files(name) values ('filename2');");
             conn.createStatement().execute(
-                // language=SQLite
+                // language=H2
                 "insert into tags(name) values ('tag');");
             conn.createStatement().execute(
-                // language=SQLite
+                // language=H2
                 "insert into tags(name) values ('tag2');");
             conn.createStatement().execute(
-                // language=SQLite
+                // language=H2
                 "insert into file_tag(file_id, tag_id) values (1, 1);");
             conn.createStatement().execute(
-                // language=SQLite
+                // language=H2
                 "insert into file_tag(file_id, tag_id) values (1, 2);");
             conn.createStatement().execute(
-                // language=SQLite
+                // language=H2
                 "insert into file_tag(file_id, tag_id) values (2, 2);");
             return conn;
         } catch (SQLException e) {

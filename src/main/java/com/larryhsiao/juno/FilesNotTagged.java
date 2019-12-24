@@ -21,7 +21,7 @@ public class FilesNotTagged implements Source<ResultSet> {
     public ResultSet value() {
         try {
             PreparedStatement stmt = db.value().prepareStatement(
-                // language=SQLite
+                // language=H2
                 "SELECT files.* FROM files " +
                     "WHERE id NOT IN (SELECT file_id from file_tag);"
             );

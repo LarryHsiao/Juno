@@ -27,11 +27,13 @@ public class FileById implements Source<ResultSet> {
     public ResultSet value() {
         try {
             PreparedStatement stmt = db.value().prepareStatement(
-                // language=SQLite
+                // language=H2
                 "SELECT * FROM files WHERE id=?;"
             );
             stmt.setLong(1, id);
-            return stmt.executeQuery();
+            ResultSet res = stmt.executeQuery();
+            res.next();
+            return res;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

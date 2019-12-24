@@ -22,8 +22,8 @@ public class CreatedTag implements Source<Tag> {
     @Override
     public Tag value() {
         try (PreparedStatement stmt = conn.value().prepareStatement(
-            // language=SQLite
-            "INSERT INTO tags(name) VALUES (?);"
+            // language=H2
+            "INSERT INTO tags(name) VALUES (?);", new String[]{"id"}
         )) {
             stmt.setString(1, tagName);
             stmt.execute();

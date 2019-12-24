@@ -1,6 +1,6 @@
 package com.larryhsiao.juno;
 
-import com.silverhetch.clotho.database.sqlite.InMemoryConn;
+import com.larryhsiao.juno.h2.MemoryH2Conn;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +20,7 @@ class FileByIdTest {
                 new FileById(
                     new FakeDataConn(
                         new TagDbConn(
-                            new InMemoryConn()
+                            new MemoryH2Conn()
                         )
                     ),
                     2

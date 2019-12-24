@@ -1,6 +1,6 @@
 package com.larryhsiao.juno;
 
-import com.silverhetch.clotho.database.sqlite.InMemoryConn;
+import com.larryhsiao.juno.h2.MemoryH2Conn;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ class QueriedAFilesTest {
         Map<String, AFile> result = new QueriedAFiles(
             new AllFiles(
                 new FakeDataConn(
-                    new TagDbConn(new InMemoryConn())
+                    new TagDbConn(new MemoryH2Conn())
                 )
             )
         ).value();

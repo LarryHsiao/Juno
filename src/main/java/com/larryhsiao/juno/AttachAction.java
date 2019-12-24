@@ -24,7 +24,7 @@ public class AttachAction implements Action {
     @Override
     public void fire() {
         try (PreparedStatement stmt = dbSrc.value().prepareStatement(
-            // language=SQLite
+            // language=H2
             "INSERT INTO file_tag (file_id, tag_id) " +
                 "VALUES (?, ?);"
         )) {

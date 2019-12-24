@@ -1,8 +1,8 @@
 package com.larryhsiao.juno;
 
+import com.larryhsiao.juno.h2.MemoryH2Conn;
 import com.silverhetch.clotho.Source;
 import com.silverhetch.clotho.database.SingleConn;
-import com.silverhetch.clotho.database.sqlite.InMemoryConn;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -20,10 +20,10 @@ class FilesNotTaggedTest {
     @Test
     void entryCount() throws SQLException {
         final Source<Connection> db = new SingleConn(new FakeDataConn(
-            new TagDbConn(new InMemoryConn())
+            new TagDbConn(new MemoryH2Conn())
         ));
         db.value().prepareStatement(
-            //language=SQLite
+            //language=H2
             "INSERT INTO files(name) VALUES ('temp_file_name');"
         ).execute();
         assertEquals(

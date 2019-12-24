@@ -23,7 +23,7 @@ public class TagsByFileId implements Source<ResultSet> {
     public ResultSet value() {
         try {
             final PreparedStatement stmt = db.value().prepareStatement(
-                // language=SQLite
+                // language=H2
                 "SELECT t.* " +
                     "FROM file_tag " +
                     "JOIN files f on file_tag.file_id = f.id " +

@@ -25,7 +25,7 @@ public class AllFiles implements Source<ResultSet> {
         try {
             Statement stmt = db.value().createStatement();
             return stmt.executeQuery(
-                // language=SQLite
+                // language=H2
                 "SELECT * FROM files;"
             );
         } catch (SQLException e) {

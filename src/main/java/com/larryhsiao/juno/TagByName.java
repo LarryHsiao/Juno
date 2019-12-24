@@ -24,7 +24,7 @@ public class TagByName implements Source<Tag> {
     public Tag value() {
         final Connection conn = connSource.value();
         try (PreparedStatement stmt = conn.prepareStatement(
-            // language=SQLite
+            // language=H2
             "SELECT  * FROM tags WHERE name=?"
         )) {
             stmt.setString(1, tagName);

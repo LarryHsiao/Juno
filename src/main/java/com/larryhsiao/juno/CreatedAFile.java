@@ -22,8 +22,8 @@ public class CreatedAFile implements Source<AFile> {
     @Override
     public AFile value() {
         try (PreparedStatement stmt = conn.value().prepareStatement(
-            // language=SQLite
-            "INSERT INTO files(name) VALUES (?);"
+            // language=H2
+            "INSERT INTO files(name) VALUES (?);", new String[]{"id"}
         )) {
             stmt.setString(1, fileName);
             stmt.execute();

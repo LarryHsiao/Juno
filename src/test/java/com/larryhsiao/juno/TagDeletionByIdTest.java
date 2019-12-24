@@ -1,8 +1,8 @@
 package com.larryhsiao.juno;
 
+import com.larryhsiao.juno.h2.MemoryH2Conn;
 import com.silverhetch.clotho.Source;
 import com.silverhetch.clotho.database.SingleConn;
-import com.silverhetch.clotho.database.sqlite.InMemoryConn;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class TagDeletionByIdTest {
      */
     @Test
     void simple() {
-        Source<Connection> conn = new SingleConn(new FakeDataConn(new TagDbConn(new InMemoryConn())));
+        Source<Connection> conn = new SingleConn(new FakeDataConn(new TagDbConn(new MemoryH2Conn())));
         new TagDeletionById(conn, 2).fire();
         Assertions.assertEquals(1, new QueriedTags(new AllTags(conn)).value().size());
         Assertions.assertEquals(1, new QueriedTags(new TagsByFileId(conn, 1)).value().size());

@@ -26,7 +26,7 @@ public class FilesByTagId implements Source<ResultSet> {
     @Override
     public ResultSet value() {
         try {
-            PreparedStatement stmt = db.value().prepareStatement(  // language=SQLite
+            PreparedStatement stmt = db.value().prepareStatement(  // language=H2
                 "SELECT f.* FROM file_tag " +
                     "LEFT JOIN files f on file_tag.file_id = f.id " +
                     "WHERE file_tag.tag_id=?1;");

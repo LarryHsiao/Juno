@@ -1,5 +1,6 @@
 package com.larryhsiao.juno;
 
+import com.larryhsiao.juno.h2.MemoryH2Conn;
 import com.silverhetch.clotho.source.ConstSource;
 import org.junit.jupiter.api.Test;
 
@@ -23,9 +24,7 @@ class TagDbConnTest {
         try {
             assertTrue(
                 new TagDbConn(
-                    new ConstSource<>(
-                        DriverManager.getConnection("jdbc:sqlite::memory:")
-                    )
+                    new MemoryH2Conn()
                 ).value().isValid(0)
             );
         } catch (SQLException e) {

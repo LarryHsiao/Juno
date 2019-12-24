@@ -28,7 +28,7 @@ public class TagDeletionById implements Action {
 
     private void deleteFromTags() {
         try (PreparedStatement stmt = connSrc.value().prepareStatement(
-            // language=SQLite
+            // language=H2
             "DELETE FROM tags WHERE id=?;"
         )) {
             stmt.setLong(1, id);
@@ -40,7 +40,7 @@ public class TagDeletionById implements Action {
 
     private void deleteFromFileTag() {
         try (PreparedStatement stmt = connSrc.value().prepareStatement(
-            // language=SQLite
+            // language=H2
             "DELETE FROM file_tag WHERE tag_id=?;"
         )) {
             stmt.setLong(1, id);

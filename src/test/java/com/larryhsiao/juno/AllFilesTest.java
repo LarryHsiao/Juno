@@ -1,5 +1,6 @@
 package com.larryhsiao.juno;
 
+import com.larryhsiao.juno.h2.MemoryH2Conn;
 import com.silverhetch.clotho.source.ConstSource;
 import org.junit.jupiter.api.Test;
 
@@ -12,27 +13,26 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Test for {@link AllFiles}.
  */
-class AllFilesTest {
+public class AllFilesTest {
     /**
      * Check the field exists.
      */
     @Test
-    void fields() throws Exception {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite::memory:")) {
-            ResultSet result = new AllFiles(new FakeDataConn(new TagDbConn(new ConstSource<>(conn)))).value();
-            result.next();
-            assertNotEquals(
-                "",
-                result.getString("name")
-            );
-        }
+    public void fields() throws Exception {
+        ResultSet result = new AllFiles(new FakeDataConn(new TagDbConn(new MemoryH2Conn()))).value();
+        result.next();
+        assertNotEquals(
+            "",
+            result.getString("name")
+        );
     }
+
 
     /**
      * Check that it should have a exception if table not constructed.
      */
     @Test
-    void exceptionNoTable() {
+    public void exceptionNoTable() {
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite::memory:")) {
             new AllFiles(new ConstSource<>(conn)).value();
             fail("Should throw a exception.");
