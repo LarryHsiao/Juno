@@ -1,6 +1,7 @@
 package com.larryhsiao.juno;
 
 import com.silverhetch.clotho.Source;
+import com.silverhetch.clotho.source.ConstSource;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +26,7 @@ public class QueriedTags implements Source<Map<String, Tag>> {
                 final String name = res.getString("name");
                 result.put(
                     name,
-                    new ConstTag(res.getLong("id"), name)
+                    new QueriedTag(new ConstSource<>(res), false).value()
                 );
             }
             return result;
