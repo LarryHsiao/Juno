@@ -28,6 +28,7 @@ public class RenamedTag implements Source<Tag> {
         )) {
             stmt.setString(1, newName);
             stmt.setLong(2, tag.id());
+            stmt.execute();
             return new ConstTag(
                 tag.id(),
                 newName

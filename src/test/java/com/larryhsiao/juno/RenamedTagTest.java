@@ -24,15 +24,12 @@ public class RenamedTagTest {
                 new MemoryH2Conn()
             )
         ));
-        new RenamedTag(
-            conn,
-            new TagByName(conn, "tag").value(),
-            newTagName
-        ).value();
+        final Tag orgTag = new TagByName(conn, "tag").value();
+        new RenamedTag(conn, orgTag, newTagName).value();
 
         Assertions.assertEquals(
             newTagName,
-            new TagByName(conn, newTagName).value().name()
+            new TagById(conn, orgTag.id()).value().name()
         );
     }
 }
