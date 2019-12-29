@@ -8,45 +8,45 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Action to delete a tag from database and its relations.
+ * Action to delete tag by ids
  */
 public class TagDeletionById implements Action {
-    private final Source<Connection> connSrc;
-    private final long id;
+    private final Source<Connection> conn;
+    private final long[] ids;
 
-    public TagDeletionById(Source<Connection> connSrc, long id) {
-        this.connSrc = connSrc;
-        this.id = id;
+    public TagDeletionById(Source<Connection> conn, long... ids) {
+        this.conn = conn;
+        this.ids = ids;
     }
 
     @Override
     public void fire() {
-        deleteFromTags();
-        // TODO: Use SQL trigger to do the relation removing
-        deleteFromFileTag();
-    }
-
-    private void deleteFromTags() {
-        try (PreparedStatement stmt = connSrc.value().prepareStatement(
-            // language=H2
-            "DELETE FROM tags WHERE id=?;"
-        )) {
-            stmt.setLong(1, id);
-            stmt.execute();
+        try {
+            try (PreparedStatement stmt = conn.value().prepareStatement(
+                // language=H2
+                "DELETE FROM TAGS WHERE ID IN (" + tagIds() + ")"
+            )) {
+                stmt.execute();
+            }
+            try (PreparedStatement stmt = conn.value().prepareStatement(
+                // language=H2
+                "DELETE FROM FILE_TAG WHERE TAG_ID IN (" + tagIds() + ")"
+            )) {
+                stmt.execute();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void deleteFromFileTag() {
-        try (PreparedStatement stmt = connSrc.value().prepareStatement(
-            // language=H2
-            "DELETE FROM file_tag WHERE tag_id=?;"
-        )) {
-            stmt.setLong(1, id);
-            stmt.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    private String tagIds() {
+        final StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < ids.length; i++) {
+            if (i > 0) {
+                builder.append(", ");
+            }
+            builder.append(ids[i]);
         }
+        return builder.toString();
     }
 }

@@ -12,7 +12,7 @@ plugins {
     id 'java'
 }
 
-def junoVersion = "1.0.8"
+def junoVersion = "1.0.9"
 
 group 'com.larryhsiao'
 version junoVersion

@@ -5,6 +5,7 @@ import com.silverhetch.clotho.Source;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -39,12 +40,10 @@ public class TagMerging implements Action {
                 stmt.setLong(1, tags[0].id());
                 stmt.execute();
             }
-            try (PreparedStatement stmt = conn.prepareStatement(
-                // language=H2
-                "DELETE FROM TAGS WHERE ID IN (" + tagIds + ")"
-            )) {
-                stmt.execute();
-            }
+           new TagDeletionById(
+               db,
+               Arrays.stream(tags).skip(1).mapToLong(Tag::id).toArray()
+           ).fire();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +56,7 @@ public class TagMerging implements Action {
         final StringBuilder builder = new StringBuilder();
         int i = 0;
         for (AFile file : files) {
-            if (i > 1) {
+            if (i > 0) {
                 builder.append(", ");
             }
             builder.append(file.id());
