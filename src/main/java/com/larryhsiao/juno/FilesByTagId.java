@@ -12,13 +12,13 @@ import java.sql.SQLException;
  */
 public class FilesByTagId implements Source<ResultSet> {
     private final Source<Connection> db;
-    private final long tagId;
+    private final long[] tagId;
 
     /**
      * @param db    The connection of tagging database.
      * @param tagId The tag we wonder to search with.
      */
-    public FilesByTagId(Source<Connection> db, long tagId) {
+    public FilesByTagId(Source<Connection> db, long... tagId) {
         this.db = db;
         this.tagId = tagId;
     }
@@ -26,14 +26,26 @@ public class FilesByTagId implements Source<ResultSet> {
     @Override
     public ResultSet value() {
         try {
-            PreparedStatement stmt = db.value().prepareStatement(  // language=H2
-                "SELECT f.* FROM file_tag " +
-                    "LEFT JOIN files f on file_tag.file_id = f.id " +
-                    "WHERE file_tag.tag_id=?1;");
-            stmt.setLong(1, tagId);
+            PreparedStatement stmt =
+                db.value().prepareStatement(  // language=H2
+                    "SELECT f.* FROM file_tag " +
+                        "LEFT JOIN files f on file_tag.file_id = f.id " +
+                        "WHERE file_tag.tag_id IN (" + tagIdStr() + ");");
             return stmt.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String tagIdStr() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < tagId.length; i++) {
+            if (i > 0) {
+                builder.append(", ");
+            }
+            builder.append(tagId[i]);
+        }
+
+        return builder.toString();
     }
 }

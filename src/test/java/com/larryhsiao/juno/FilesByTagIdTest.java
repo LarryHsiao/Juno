@@ -14,15 +14,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class FilesByTagIdTest {
     /**
-     * Check output
+     * Check single tag output
      */
     @Test
-    void simple() {
-        Source<Connection> conn = new SingleConn(new FakeDataConn(new TagDbConn(new MemoryH2Conn())));
+    void single() {
+        Source<Connection> conn =
+            new SingleConn(new FakeDataConn(new TagDbConn(new MemoryH2Conn())));
         assertEquals(
             2,
             new QueriedAFiles(
                 new FilesByTagId(conn, 2)
+            ).value().size()
+        );
+    }
+
+    /**
+     * Check multiple tag output
+     */
+    @Test
+    void multiple() {
+        Source<Connection> conn = new SingleConn(
+            new FakeDataConn(new TagDbConn(new MemoryH2Conn()))
+        );
+        new CreatedAFile(conn, "NewFileName").value();
+        assertEquals(
+            2,
+            new QueriedAFiles(
+                new FilesByTagId(conn, 1, 2)
             ).value().size()
         );
     }
