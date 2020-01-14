@@ -55,4 +55,20 @@ class FilesByInputTest {
             new QueriedAFiles(new FilesByInput(conn, "#tag")).value()
                 .size());
     }
+
+    /**
+     * By tag not exist.
+     */
+    @Test
+    void tagNotExist() {
+        try {
+            final Source<Connection> conn =
+                new SingleConn(
+                    new FakeDataConn(new TagDbConn(new MemoryH2Conn())));
+            new QueriedAFiles(new FilesByInput(conn, "#tagNotExist")).value();
+            Assertions.fail();
+        }catch (Exception e){
+            Assertions.assertTrue(true);
+        }
+    }
 }

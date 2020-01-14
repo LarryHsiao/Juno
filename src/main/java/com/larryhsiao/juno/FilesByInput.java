@@ -36,7 +36,7 @@ public class FilesByInput implements Source<ResultSet> {
         if (input.startsWith("#") && input.length() > 1) {
             return new FilesByTagId(
                 db,
-                new TagByName(db, input.substring(1)).value().id()
+                new TagByName(db, input.substring(1), false).value().id()
             ).value();
         }
         return new FilesByKeyword(db, input).value();

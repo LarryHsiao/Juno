@@ -14,10 +14,19 @@ import java.sql.SQLException;
 public class TagByName implements Source<Tag> {
     private final Source<Connection> connSource;
     private final String tagName;
+    private final boolean autoCreate;
 
     public TagByName(Source<Connection> connSource, String tagName) {
+        this(connSource, tagName, true);
+    }
+
+    public TagByName(
+        Source<Connection> connSource,
+        String tagName,
+        boolean autoCreate) {
         this.connSource = connSource;
         this.tagName = tagName;
+        this.autoCreate = autoCreate;
     }
 
     @Override
@@ -32,10 +41,14 @@ public class TagByName implements Source<Tag> {
             if (res.next()) {
                 return new ConstTag(res.getLong("id"), res.getString("name"));
             } else {
-                return new CreatedTag(
-                    connSource,
-                    tagName
-                ).value();
+                if (autoCreate) {
+                    return new CreatedTag(
+                        connSource,
+                        tagName
+                    ).value();
+                }else {
+                    throw new SQLException("Tag not found: "+tagName);
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
