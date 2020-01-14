@@ -30,6 +30,15 @@ public class FilesByInput implements Source<ResultSet> {
         if ("#!tag".equals(input)) {
             return new FilesNotTagged(db).value();
         }
+        if ("#favorite".equals(input)) {
+            return new FavoriteFiles(db).value();
+        }
+        if (input.startsWith("#") && input.length() > 1) {
+            return new FilesByTagId(
+                db,
+                new TagByName(db, input.substring(1)).value().id()
+            ).value();
+        }
         return new FilesByKeyword(db, input).value();
     }
 }
