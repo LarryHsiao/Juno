@@ -39,6 +39,9 @@ public class FilesByInput implements Source<ResultSet> {
                 new TagByName(db, input.substring(1), false).value().id()
             ).value();
         }
+        if (input.startsWith("!")) {
+            return new FilesByKeyword(db, input, true).value();
+        }
         return new FilesByKeyword(db, input).value();
     }
 }

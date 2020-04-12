@@ -21,8 +21,25 @@ class FilesByKeywordTest {
                     new FakeDataConn(
                         new TagDbConn(new MemoryH2Conn())
                     ),
-                    "tag"
-                )
+                    "tag")
+            ).value().size()
+        );
+    }
+
+
+    /**
+     * Check excluded result count.
+     */
+    @Test
+    void excluded() {
+        assertEquals(
+            1,
+            new QueriedAFiles(
+                new FilesByKeyword(
+                    new FakeDataConn(
+                        new TagDbConn(new MemoryH2Conn())
+                    ),
+                    "tag2", true)
             ).value().size()
         );
     }
