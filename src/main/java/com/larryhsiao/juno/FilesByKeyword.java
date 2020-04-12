@@ -44,16 +44,19 @@ public class FilesByKeyword implements Source<ResultSet> {
         }
     }
 
-    private PreparedStatement statement() throws SQLException{
+    private PreparedStatement statement() throws SQLException {
         if (excluded) {
             return db.value().prepareStatement(  // language=H2
-                "SELECT files.* FROM files " +
+                "SELECT * FROM files " +
+                    "where id not in (" +
+                    "SELECT files.id FROM files " +
                     "LEFT OUTER JOIN file_tag ft on files.id = ft.file_id " +
                     "LEFT OUTER JOIN tags t on ft.tag_id = t.id " +
-                    "WHERE files.name not like (?1) " +
-                    "AND t.name not like (?1)" +
-                    "GROUP BY files.id;");
-        }else{
+                    "WHERE files.name like (?1) " +
+                    "or t.name like (?1)" +
+                    "GROUP BY files.id" +
+                    ");");
+        } else {
             return db.value().prepareStatement(  // language=H2
                 "SELECT files.* FROM files " +
                     "LEFT OUTER JOIN file_tag ft on files.id = ft.file_id " +

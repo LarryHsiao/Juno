@@ -33,7 +33,7 @@ class FilesByKeywordTest {
     @Test
     void excluded() {
         assertEquals(
-            1,
+            0,
             new QueriedAFiles(
                 new FilesByKeyword(
                     new FakeDataConn(
