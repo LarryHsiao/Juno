@@ -40,7 +40,7 @@ public class FilesByInput implements Source<ResultSet> {
             ).value();
         }
         if (input.startsWith("!")) {
-            return new FilesByKeyword(db, input, true).value();
+            return new FilesByKeyword(db, input.substring(1), true).value();
         }
         return new FilesByKeyword(db, input).value();
     }
