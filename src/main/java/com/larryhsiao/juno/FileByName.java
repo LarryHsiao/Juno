@@ -1,7 +1,7 @@
 package com.larryhsiao.juno;
 
-import com.silverhetch.clotho.Source;
-import com.silverhetch.clotho.source.ConstSource;
+import com.larryhsiao.clotho.Source;
+import com.larryhsiao.clotho.source.ConstSource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

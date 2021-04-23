@@ -1,8 +1,8 @@
 package com.larryhsiao.juno;
 
 import com.larryhsiao.juno.h2.MemoryH2Conn;
-import com.silverhetch.clotho.Source;
-import com.silverhetch.clotho.database.SingleConn;
+import com.larryhsiao.clotho.Source;
+import com.larryhsiao.clotho.database.SingleConn;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

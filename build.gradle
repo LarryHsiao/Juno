@@ -1,33 +1,28 @@
-buildscript {
+buildscript{
     repositories {
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        maven { url = 'https://larryhsiao.com:11000/repository/maven-public/' }
     }
 }
 
 plugins {
+    id 'com.larryhsiao.thea' version '1.5.0'
     id 'java'
 }
 
-def junoVersion = "1.1.5"
+System.out.println(thea.versionIndicator())
+def junoVersion = thea.version().versionName()
 
 group 'com.larryhsiao'
 version junoVersion
 
 repositories {
-    mavenCentral()
-    maven {
-        url "https://dl.bintray.com/larryhsiao/Elizabeth"
-    }
+    maven { url = 'https://larryhsiao.com:11000/repository/maven-public/' }
 }
 test {
     useJUnitPlatform()
 }
 dependencies {
-    implementation 'com.silverhetch:clotho:1.15.0'
+    implementation 'com.larryhsiao:clotho:1.18.5'
     runtimeOnly 'com.h2database:h2:1.4.200'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
@@ -41,29 +36,6 @@ apply plugin: 'jacoco'
 jacocoTestReport {
     reports {
         xml.enabled = true
-    }
-}
-
-apply plugin: 'com.jfrog.bintray'
-bintray {
-    user = 'larryhsiao'
-    key = System.getenv('BINTRAY_KEY')
-    publications = ['release']
-    publish = true
-    override = true
-    pkg {
-        repo = 'Elizabeth'
-        name = 'Juno'
-        userOrg = 'larryhsiao'
-        licenses = ['MIT']
-        vcsUrl = 'https://github.com/LarryHsiao/Juno.git'
-        version {
-            name = junoVersion
-            gpg {
-                sign = true
-                passphrase = System.getenv('BINTRAY_PASSPHRASE')
-            }
-        }
     }
 }
 
@@ -87,6 +59,15 @@ publishing {
             groupId 'com.larryhsiao'
             artifactId 'juno'
             version junoVersion
+        }
+    }
+    repositories {
+        maven {
+            url = 'https://larryhsiao.com:11000/repository/Elizabeth/'
+            credentials {
+                username(System.getenv("NEXUS_USER_NAME"))
+                password(System.getenv("NEXUS_PASSWORD"))
+            }
         }
     }
 }

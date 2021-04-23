@@ -1,8 +1,8 @@
 package com.larryhsiao.juno;
 
 import com.larryhsiao.juno.h2.EmbedH2Conn;
-import com.silverhetch.clotho.Source;
-import com.silverhetch.clotho.source.ConstSource;
+import com.larryhsiao.clotho.Source;
+import com.larryhsiao.clotho.source.ConstSource;
 
 import java.io.File;
 import java.sql.Connection;

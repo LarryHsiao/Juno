@@ -1,9 +1,9 @@
 package com.larryhsiao.juno;
 
 import com.larryhsiao.juno.h2.MemoryH2Conn;
-import com.silverhetch.clotho.Source;
-import com.silverhetch.clotho.database.SingleConn;
-import com.silverhetch.clotho.source.ConstSource;
+import com.larryhsiao.clotho.Source;
+import com.larryhsiao.clotho.database.SingleConn;
+import com.larryhsiao.clotho.source.ConstSource;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
